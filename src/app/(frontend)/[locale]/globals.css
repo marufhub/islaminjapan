@@ -1,0 +1,90 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens — calm ivory, deep green, restrained warm gold.
+ * Gold is decorative only: it does not meet text contrast on ivory, so never use it for text.
+ */
+@theme {
+  --color-primary: #16624f;
+  --color-primary-dark: #0e4a3b;
+  --color-primary-soft: #e3efe9;
+  --color-ivory: #faf8f2;
+  --color-surface: #ffffff;
+  --color-gold: #c8a96b;
+  --color-gold-soft: #f3ead7;
+  --color-charcoal: #26342f;
+  --color-muted: #55625d;
+  --color-line: #e4dfd3;
+
+  --font-sans: var(--font-sans-jp), 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, system-ui, sans-serif;
+  --font-serif: var(--font-serif-jp), 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  --font-arabic: var(--font-arabic-face), 'Amiri', 'Scheherazade New', serif;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-ivory);
+    color: var(--color-charcoal);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+    font-feature-settings: 'palt' 0;
+  }
+
+  :lang(en) body,
+  body:lang(en) {
+    letter-spacing: 0;
+    line-height: 1.7;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--color-primary);
+    text-underline-offset: 0.2em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Arabic quotations: right-to-left, dedicated typeface, generous line height. */
+  .arabic {
+    font-family: var(--font-arabic);
+    direction: rtl;
+    font-size: 1.5em;
+    line-height: 2.1;
+    letter-spacing: 0;
+  }
+
+  /* Subtle eight-point geometric motif for decorative backgrounds. */
+  .geometric-motif {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M24 4l5.9 14.1L44 24l-14.1 5.9L24 44l-5.9-14.1L4 24l14.1-5.9z' fill='none' stroke='%23c8a96b' stroke-opacity='.28' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 48px 48px;
+  }
+}
