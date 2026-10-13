@@ -3,12 +3,16 @@ import { isLocale, LOCALES, type Locale } from './config'
 const SAFE_EXTERNAL = /^(https?:\/\/|mailto:)/i
 const HAS_SCHEME = /^[a-z][a-z0-9+.-]*:/i
 
+// Browsers ignore ASCII control characters and whitespace inside a scheme ("java\tscript:").
+const CONTROL_AND_SPACE = /[\u0000-\u0020\u007f-\u009f]/g
+
 /** CMS links may only be site paths, anchors, http(s) or mailto — never javascript:, data:, etc. */
 export const isSafeHref = (href: string): boolean => {
-  const value = href.trim()
-  if (value.startsWith('//')) return false
+  const value = href.replace(CONTROL_AND_SPACE, '')
+  // Backslashes are treated as slashes by browsers ("/\\evil.example" → "//evil.example").
+  if (value.length === 0 || value.includes('\\') || value.startsWith('//')) return false
   if (HAS_SCHEME.test(value)) return SAFE_EXTERNAL.test(value)
-  return value.length > 0
+  return true
 }
 
 /** Prefixes an internal, locale-independent path ("/learn") with the locale ("/ja/learn"). */

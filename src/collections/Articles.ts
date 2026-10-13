@@ -7,6 +7,7 @@ import {
   editorialStatusField,
   editorOnlyAccess,
   languageField,
+  searchTextField,
   seoField,
   slugField,
   translationGroupField,
@@ -14,6 +15,7 @@ import {
 import { enforceEditorialWorkflow } from '@/hooks/editorialWorkflow'
 import { requireResolvedClaims, requireReviewer, requireVerifiedSources } from '@/hooks/publishChecks'
 import { trackDraftSave } from '@/hooks/requestGuards'
+import { buildSearchText } from '@/hooks/searchText'
 import { setPublishedAt } from '@/hooks/setPublishedAt'
 import { uniqueSlugPerLanguage } from '@/hooks/uniqueSlugPerLanguage'
 import { label } from '@/lib/i18n/config'
@@ -43,6 +45,10 @@ export const Articles: CollectionConfig = {
     group: label('コンテンツ', 'Content'),
     defaultColumns: ['title', 'language', 'section', 'editorialStatus', '_status', 'updatedAt'],
     listSearchableFields: ['title', 'slug', 'summary'],
+    preview: (doc) =>
+      doc?.slug && doc?.language
+        ? `/preview?path=${encodeURIComponent(`/${String(doc.language)}/articles/${String(doc.slug)}`)}`
+        : null,
   },
   access: {
     read: publishedOrStaff,
@@ -58,6 +64,7 @@ export const Articles: CollectionConfig = {
       uniqueSlugPerLanguage('articles'),
       enforceEditorialWorkflow([requireReviewer, requireResolvedClaims, requireVerifiedSources('sources')]),
       setPublishedAt,
+      buildSearchText({ text: ['title', 'summary'], richText: ['body'] }),
     ],
   },
   fields: [
@@ -173,6 +180,7 @@ export const Articles: CollectionConfig = {
         { label: 'SEO', fields: [seoField, { name: 'featured', type: 'checkbox', defaultValue: false, label: label('おすすめ記事', 'Featured') }] },
       ],
     },
+    searchTextField,
     languageField,
     translationGroupField,
     slugField,

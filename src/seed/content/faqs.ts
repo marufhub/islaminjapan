@@ -1,0 +1,76 @@
+/** Draft FAQs (Japanese). Unpublished until reviewed; answers deliberately general. */
+export type SeedFaq = { question: string; shortAnswer: string; answer: string[]; categorySlug: string; order: number; relatedSlug?: string }
+
+export const SEED_FAQS: SeedFaq[] = [
+  {
+    question: 'イスラームとはどのような宗教ですか？',
+    shortAnswer: '唯一の神（アッラー）を信じる一神教です。',
+    answer: ['イスラームは、唯一の神を信じ、聖典クルアーンと預言者ムハンマドの教えに従う宗教です。信仰する人はムスリムと呼ばれます。'],
+    categorySlug: 'beliefs',
+    order: 10,
+    relatedSlug: 'what-is-islam',
+  },
+  {
+    question: 'なぜムスリムは毎日礼拝するのですか？',
+    shortAnswer: '1日5回の礼拝は、信仰の柱（五行）のひとつだからです。',
+    answer: ['礼拝は神を思い起こし、感謝を捧げる大切な実践とされています。夜明け前から夜までの決まった時間帯に、1日5回行います。'],
+    categorySlug: 'beliefs',
+    order: 20,
+    relatedSlug: 'why-muslims-pray',
+  },
+  {
+    question: 'クルアーンとは何ですか？',
+    shortAnswer: 'イスラームの聖典です。',
+    answer: ['ムスリムは、クルアーンを預言者ムハンマドに啓示された神の言葉と信じています。原文はアラビア語で、各国語の翻訳は意味を理解する助けとして読まれています。'],
+    categorySlug: 'quran-hadith',
+    order: 30,
+    relatedSlug: 'what-is-the-quran',
+  },
+  {
+    question: 'ラマダンとは何ですか？',
+    shortAnswer: 'イスラーム暦の9番目の月で、日中に断食を行う月です。',
+    answer: ['ラマダン月には、夜明けから日没まで飲食などを控えます。病気の人や旅行中の人などには免除や延期が認められています。'],
+    categorySlug: 'muslim-life',
+    order: 40,
+    relatedSlug: 'what-is-ramadan',
+  },
+  {
+    question: 'ハラールとは何ですか？',
+    shortAnswer: 'イスラームの教えで「許されたもの」を意味します。',
+    answer: ['食べ物では、豚肉やアルコールを避けることなどが知られています。どこまで厳密に考えるかは人によって違いがあります。'],
+    categorySlug: 'muslim-life',
+    order: 50,
+    relatedSlug: 'what-is-halal',
+  },
+  {
+    question: '日本人もムスリムになれますか？',
+    shortAnswer: 'はい。国籍や民族に関係なくムスリムになることができます。',
+    answer: ['イスラームは特定の民族の宗教ではありません。入信は本人の自由な意思によるもので、急ぐ必要はありません。'],
+    categorySlug: 'community',
+    order: 60,
+    relatedSlug: 'can-japanese-become-muslim',
+  },
+  {
+    question: 'モスクには誰でも入れますか？',
+    shortAnswer: '多くのモスクはムスリムでない方の見学も歓迎しています。',
+    answer: ['見学の可否や時間はモスクによって異なります。事前に各モスクの案内を確認し、服装などのマナーに配慮しましょう。'],
+    categorySlug: 'community',
+    order: 70,
+    relatedSlug: 'visiting-a-mosque',
+  },
+  {
+    question: 'イスラームは他の宗教についてどう考えますか？',
+    shortAnswer: '信仰の強制を戒め、他の信仰を持つ人々との共存が説かれてきました。',
+    answer: ['具体的な教えの解釈には学者の間で幅があります。引用を伴う詳しい解説は、出典を確認したうえで記事として公開する予定です。'],
+    categorySlug: 'community',
+    order: 80,
+  },
+  {
+    question: '日本でムスリムとして生活するには？',
+    shortAnswer: '礼拝・食事・断食などについて、周囲と相談しながら工夫して暮らしている人が多くいます。',
+    answer: ['職場や学校での礼拝場所の確保、食事の選び方など、日本で暮らすムスリムの経験に基づく情報を「日本でのムスリム生活」でまとめていきます。'],
+    categorySlug: 'muslim-life',
+    order: 90,
+    relatedSlug: 'muslim-life-in-japan',
+  },
+]

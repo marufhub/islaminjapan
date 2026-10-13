@@ -1,7 +1,7 @@
 import type { Locale } from './config'
 
 /**
- * Fixed UI strings. Editorial copy (homepage text, navigation labels) lives in the CMS;
+ * Fixed UI strings. Editorial copy (homepage text, navigation labels, policies) lives in the CMS;
  * these are fallbacks and interface chrome only.
  */
 const ja = {
@@ -12,6 +12,7 @@ const ja = {
   menu: 'メニュー',
   closeMenu: 'メニューを閉じる',
   mainNavigation: 'メインナビゲーション',
+  breadcrumb: 'パンくずリスト',
   nav: {
     home: 'ホーム',
     learn: 'イスラームを知る',
@@ -22,22 +23,178 @@ const ja = {
     about: '私たちについて',
     contact: 'お問い合わせ',
     editorialPolicy: '編集方針',
+    sourcesPolicy: '出典・引用の方針',
     privacy: 'プライバシーポリシー',
+    search: '検索',
   },
   home: {
     heroTitle: '日本でイスラームを知る',
-    heroIntro: 'イスラームの教え、歴史、文化、そして日本で暮らすムスリムの生活をわかりやすく紹介します。',
+    heroIntro:
+      'イスラームの教え、歴史、文化、そして日本で暮らすムスリムの生活をわかりやすく紹介します。',
     pathwaysHeading: '3つの入口から',
     pathways: [
-      { title: 'イスラームを知る', description: '信仰・価値観・実践の基本をやさしく解説します。', href: '/learn' },
-      { title: '日本のイスラームを探る', description: '歴史、モスク、コミュニティ、文化をたどります。', href: '/islam-in-japan' },
-      { title: '日本でのムスリム生活', description: '日本で暮らすムスリムに役立つ学びと情報。', href: '/muslim-life' },
+      {
+        title: 'イスラームを知る',
+        description: '信仰・価値観・実践の基本をやさしく解説します。',
+        href: '/learn',
+      },
+      {
+        title: '日本のイスラームを探る',
+        description: '歴史、モスク、コミュニティ、文化をたどります。',
+        href: '/islam-in-japan',
+      },
+      {
+        title: '日本でのムスリム生活',
+        description: '日本で暮らすムスリムに役立つ学びと情報。',
+        href: '/muslim-life',
+      },
     ],
+    featuredTopics: '基本のテーマ',
+    timelinePreview: '日本のイスラーム史',
+    timelinePreviewIntro: '出典に基づいて確認できた出来事を年代順に紹介します。',
+    recommendedFaqs: 'よくある質問',
+    latestArticles: '新着記事',
+    contactInvitation:
+      '疑問や知りたいことがあれば、お気軽にお問い合わせください。勧誘を目的としたご連絡はいたしません。',
+    credibilityHeading: '信頼できる情報のために',
+    credibilityItems: [
+      '掲載前に編集者がレビューします',
+      '出典と最終レビュー日を明記します',
+      'AIの下書きは必ず人が確認してから公開します',
+    ],
+  },
+  sections: {
+    learn: {
+      title: 'イスラームを知る',
+      intro:
+        'イスラームの信仰、クルアーン、預言者ムハンマド、礼拝や断食、倫理と社会について、はじめての方にもわかるように解説します。',
+      journeyTitle: 'はじめての方へ：入門ラーニングジャーニー',
+      journeyIntro: '登録不要。上から順に読むと、イスラームの全体像がつかめます。',
+      topicsTitle: 'テーマ別に読む',
+    },
+    islamInJapan: {
+      title: '日本のイスラーム',
+      intro:
+        '日本とムスリム社会の出会いから現代まで。出典に基づき、確認できた事実と不確かな点を区別して紹介します。',
+      timelineTitle: '年表',
+      articlesTitle: '歴史と文化の記事',
+      researchNote:
+        '年表には、編集部が出典を確認した項目のみを掲載しています。日付の精度や諸説がある場合は各項目に明記しています。',
+    },
+    muslimLife: {
+      title: '日本でのムスリム生活',
+      intro:
+        '礼拝やラマダン、家族と教育、ハラール、モスク訪問、職場や学校での相互理解など、日本での暮らしに関わる学びと情報。',
+      updateNote:
+        '制度や施設など変わりうる情報には、更新日と出典を記載しています。最新情報は各機関にご確認ください。',
+    },
+    faq: {
+      title: 'イスラームQ&A',
+      intro: 'ムスリムの方もそうでない方も、素朴な疑問から気軽にどうぞ。',
+      notFatwa:
+        'ここでの回答は一般的な解説です。個別の宗教的判断（ファトワー）が必要な場合は、信頼できる学者やモスクにご相談ください。',
+      askTitle: '答えが見つかりませんか？',
+      askBody: '質問はお問い合わせフォームから編集部にお送りください。',
+    },
+    articles: {
+      title: '記事・資料',
+      intro: '編集部がレビューした記事を、カテゴリーやキーワードで探せます。',
+    },
+    search: { title: 'サイト内検索', intro: '記事とQ&Aを検索します。' },
+    about: { title: '私たちについて' },
+    contact: { title: 'お問い合わせ' },
+    editorialPolicy: { title: '編集方針' },
+    sourcesPolicy: { title: '出典・引用の方針' },
+    privacy: { title: 'プライバシーポリシー' },
+  },
+  ui: {
+    readMore: '続きを読む',
+    viewAll: 'すべて見る',
+    publishedOn: '公開日',
+    lastReviewed: '最終レビュー',
+    writtenBy: '執筆',
+    reviewedBy: 'レビュー',
+    references: '出典・参考文献',
+    relatedArticles: '関連記事',
+    relatedFaqs: '関連する質問',
+    noResults: '該当する内容が見つかりませんでした。',
+    emptySection: 'このセクションの記事は現在準備中です。',
+    searchLabel: 'キーワード',
+    searchPlaceholder: '例：ラマダン、ハラール',
+    searchButton: '検索',
+    resultsFor: (query: string) => `「${query}」の検索結果`,
+    resultCount: (count: number) => `${count}件`,
+    filterAll: 'すべて',
+    category: 'カテゴリー',
+    period: '時代',
+    subject: '主題',
+    location: '場所',
+    previous: '前へ',
+    next: '次へ',
+    pagination: 'ページ送り',
+    pageOf: (page: number, total: number) => `${page} / ${total}ページ`,
+    notAvailableTitle: 'この記事は日本語ではまだ公開されていません',
+    notAvailableBody: '別の言語で公開されている版があります。',
+    readInOther: '英語版を読む',
+    otherLanguageVersion: 'English version',
+    previewBanner: 'プレビュー表示中（未公開の下書きを含みます）',
+    exitPreview: 'プレビューを終了',
+    aiGeneratedImage: 'AI生成画像（史料ではありません）',
+    uncertaintyNotes: '不確かな点',
+    conflictingAccounts: '異なる説・記録',
+    eventDetails: '詳しく見る',
+    backToTimeline: '年表に戻る',
+    step: (n: number) => `ステップ${n}`,
+    knowledgeLevel: { beginner: '入門', intermediate: '中級', advanced: '上級' } as Record<
+      string,
+      string
+    >,
+    share: '共有',
+    shareOnX: 'Xで共有',
+    shareByEmail: 'メールで送る',
+    sourceAccessed: '確認日',
+    imageCredit: '画像',
+    notFoundTitle: 'ページが見つかりません',
+    notFoundBody: 'お探しのページは移動または削除された可能性があります。',
+    backHome: 'トップページへ',
+  },
+  subjects: {
+    people: '人物',
+    organizations: '団体',
+    mosques: 'モスク',
+    communities: 'コミュニティ',
+    diplomacy: '外交・交流',
+    education: '教育・出版',
+  } as Record<string, string>,
+  contact: {
+    name: 'お名前',
+    email: 'メールアドレス',
+    subject: '件名',
+    message: 'お問い合わせ内容',
+    submit: '送信する',
+    sending: '送信中…',
+    required: '必須',
+    success: 'お問い合わせを受け付けました。内容を確認のうえ、必要に応じて編集部からご連絡します。',
+    errorValidation: '入力内容をご確認ください。',
+    errorRateLimited: '短時間に多くの送信がありました。しばらくしてから再度お試しください。',
+    errorServer: '送信できませんでした。時間をおいて再度お試しください。',
+    errorExpired:
+      'フォームの有効期限が切れました。ページを再読み込みしてから、もう一度送信してください。',
+    defaultIntro: 'イスラームについての質問、記事へのご意見、誤りのご指摘などをお寄せください。',
+    defaultPrivacy:
+      'ご入力いただいた情報は、お問い合わせへの対応のためにのみ使用します。詳しくはプライバシーポリシーをご覧ください。',
+    fieldErrors: {
+      name: 'お名前を入力してください（100文字以内）。',
+      email: '有効なメールアドレスを入力してください。',
+      subject: '件名を入力してください（150文字以内）。',
+      message: 'お問い合わせ内容を入力してください（10〜5000文字）。',
+    } as Record<string, string>,
   },
   footer: {
     tagline: 'イスラームを知る。日本で学び、理解し、つながる。',
     credibility: '掲載内容は編集方針に基づき、出典とレビュー日を明記しています。',
   },
+  policyFallback: 'この内容は現在準備中です。',
 }
 
 export type Dictionary = typeof ja
@@ -50,6 +207,7 @@ const en: Dictionary = {
   menu: 'Menu',
   closeMenu: 'Close menu',
   mainNavigation: 'Main navigation',
+  breadcrumb: 'Breadcrumb',
   nav: {
     home: 'Home',
     learn: 'Discover Islam',
@@ -60,7 +218,9 @@ const en: Dictionary = {
     about: 'About',
     contact: 'Contact',
     editorialPolicy: 'Editorial Policy',
+    sourcesPolicy: 'Sources & References Policy',
     privacy: 'Privacy Policy',
+    search: 'Search',
   },
   home: {
     heroTitle: 'Discover Islam in Japan',
@@ -68,15 +228,165 @@ const en: Dictionary = {
       'Clear introductions to Islamic teachings, history and culture, and to the lives of Muslims living in Japan.',
     pathwaysHeading: 'Three ways to begin',
     pathways: [
-      { title: 'Discover Islam', description: "Learn Islam's beliefs, values and practices.", href: '/learn' },
-      { title: 'Explore Islam in Japan', description: 'History, mosques, communities and culture.', href: '/islam-in-japan' },
-      { title: 'Muslim Life in Japan', description: 'Learning and practical information for life in Japan.', href: '/muslim-life' },
+      {
+        title: 'Discover Islam',
+        description: "Learn Islam's beliefs, values and practices.",
+        href: '/learn',
+      },
+      {
+        title: 'Explore Islam in Japan',
+        description: 'History, mosques, communities and culture.',
+        href: '/islam-in-japan',
+      },
+      {
+        title: 'Muslim Life in Japan',
+        description: 'Learning and practical information for life in Japan.',
+        href: '/muslim-life',
+      },
     ],
+    featuredTopics: 'Foundational topics',
+    timelinePreview: 'Islam in Japan: a timeline',
+    timelinePreviewIntro: 'Events we have verified against sources, in chronological order.',
+    recommendedFaqs: 'Common questions',
+    latestArticles: 'Latest articles',
+    contactInvitation:
+      'Have a question or something you would like to learn about? Feel free to contact us — we never use inquiries for proselytizing.',
+    credibilityHeading: 'Our commitment to reliable information',
+    credibilityItems: [
+      'Every article is reviewed by an editor before publication',
+      'Sources and last-reviewed dates are shown',
+      'AI-assisted drafts are always checked by people before publishing',
+    ],
+  },
+  sections: {
+    learn: {
+      title: 'Discover Islam',
+      intro:
+        'Beginner-friendly explanations of Islamic belief, the Quran, Prophet Muhammad, prayer and fasting, ethics and society.',
+      journeyTitle: 'New to Islam? Start the beginner journey',
+      journeyIntro: 'No sign-up needed. Read in order for an overview of Islam.',
+      topicsTitle: 'Browse by topic',
+    },
+    islamInJapan: {
+      title: 'Islam in Japan',
+      intro:
+        'From the first encounters between Japan and Muslim societies to the present day — based on sources, separating verified facts from open questions.',
+      timelineTitle: 'Timeline',
+      articlesTitle: 'History and culture',
+      researchNote:
+        'The timeline only lists events our editors have checked against sources. Date precision and differing accounts are noted on each entry.',
+    },
+    muslimLife: {
+      title: 'Muslim Life in Japan',
+      intro:
+        'Prayer and Ramadan, family and education, halal food, visiting mosques, and mutual understanding at work and school in Japan.',
+      updateNote:
+        'Information that can change over time shows an update date and sources. Please confirm current details with the relevant organizations.',
+    },
+    faq: {
+      title: 'Questions About Islam',
+      intro: 'Whether you are Muslim or not, start with any question you have.',
+      notFatwa:
+        'Answers here are general explanations. For a personal religious ruling (fatwa), please consult a qualified scholar or your local mosque.',
+      askTitle: "Can't find your answer?",
+      askBody: 'Send your question to our editors through the contact form.',
+    },
+    articles: {
+      title: 'Articles & Resources',
+      intro: 'Editor-reviewed articles, searchable by category and keyword.',
+    },
+    search: { title: 'Search', intro: 'Search articles and questions.' },
+    about: { title: 'About' },
+    contact: { title: 'Contact' },
+    editorialPolicy: { title: 'Editorial Policy' },
+    sourcesPolicy: { title: 'Sources & References Policy' },
+    privacy: { title: 'Privacy Policy' },
+  },
+  ui: {
+    readMore: 'Read more',
+    viewAll: 'View all',
+    publishedOn: 'Published',
+    lastReviewed: 'Last reviewed',
+    writtenBy: 'Written by',
+    reviewedBy: 'Reviewed by',
+    references: 'Sources & references',
+    relatedArticles: 'Related articles',
+    relatedFaqs: 'Related questions',
+    noResults: 'No results found.',
+    emptySection: 'Articles for this section are being prepared.',
+    searchLabel: 'Keyword',
+    searchPlaceholder: 'e.g. Ramadan, halal',
+    searchButton: 'Search',
+    resultsFor: (query: string) => `Results for “${query}”`,
+    resultCount: (count: number) => `${count} ${count === 1 ? 'result' : 'results'}`,
+    filterAll: 'All',
+    category: 'Category',
+    period: 'Period',
+    subject: 'Subject',
+    location: 'Location',
+    previous: 'Previous',
+    next: 'Next',
+    pagination: 'Pagination',
+    pageOf: (page: number, total: number) => `Page ${page} of ${total}`,
+    notAvailableTitle: 'This article is not yet available in English',
+    notAvailableBody: 'It is published in another language.',
+    readInOther: 'Read the Japanese version',
+    otherLanguageVersion: '日本語版',
+    previewBanner: 'Preview mode (includes unpublished drafts)',
+    exitPreview: 'Exit preview',
+    aiGeneratedImage: 'AI-generated image (not a historical record)',
+    uncertaintyNotes: 'Uncertainties',
+    conflictingAccounts: 'Differing accounts',
+    eventDetails: 'Details',
+    backToTimeline: 'Back to the timeline',
+    step: (n: number) => `Step ${n}`,
+    knowledgeLevel: { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' },
+    share: 'Share',
+    shareOnX: 'Share on X',
+    shareByEmail: 'Send by email',
+    sourceAccessed: 'Accessed',
+    imageCredit: 'Image',
+    notFoundTitle: 'Page not found',
+    notFoundBody: 'The page you are looking for may have been moved or removed.',
+    backHome: 'Back to the homepage',
+  },
+  subjects: {
+    people: 'People',
+    organizations: 'Organizations',
+    mosques: 'Mosques',
+    communities: 'Communities',
+    diplomacy: 'Diplomacy & exchange',
+    education: 'Education & publishing',
+  },
+  contact: {
+    name: 'Name',
+    email: 'Email',
+    subject: 'Subject',
+    message: 'Message',
+    submit: 'Send',
+    sending: 'Sending…',
+    required: 'required',
+    success:
+      'Thank you — we have received your message. Our editors will review it and reply if needed.',
+    errorValidation: 'Please check the highlighted fields.',
+    errorRateLimited: 'Too many messages were sent in a short time. Please try again later.',
+    errorServer: 'Your message could not be sent. Please try again later.',
+    errorExpired: 'This form has expired. Please reload the page and send your message again.',
+    defaultIntro: 'Send us your questions about Islam, feedback on articles, or corrections.',
+    defaultPrivacy:
+      'We use the information you provide only to respond to your inquiry. See our privacy policy for details.',
+    fieldErrors: {
+      name: 'Please enter your name (up to 100 characters).',
+      email: 'Please enter a valid email address.',
+      subject: 'Please enter a subject (up to 150 characters).',
+      message: 'Please enter a message (10–5000 characters).',
+    },
   },
   footer: {
     tagline: 'Discover Islam. Learn, Understand, and Connect in Japan.',
     credibility: 'Content follows our editorial policy, with sources and review dates shown.',
   },
+  policyFallback: 'This content is being prepared.',
 }
 
 const dictionaries: Record<Locale, Dictionary> = { ja, en }

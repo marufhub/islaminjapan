@@ -17,7 +17,8 @@ export function LanguageSwitcher({ locale, label }: LanguageSwitcherProps) {
         {LOCALES.map((target) => {
           const isCurrent = target === locale
           return (
-            <li key={target}>
+            // On narrow screens only the other language is shown, to keep the header on one line.
+            <li key={target} className={isCurrent ? 'hidden sm:block' : undefined}>
               <a
                 href={switchLocalePath(pathname, target)}
                 hrefLang={target}

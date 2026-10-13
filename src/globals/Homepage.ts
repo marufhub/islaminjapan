@@ -2,14 +2,14 @@ import type { GlobalConfig } from 'payload'
 
 import { label } from '@/lib/i18n/config'
 
-import { publicReadEditorWrite } from './access'
+import { publishedReadEditorWrite } from './access'
 import { validateHref } from './linkFields'
 
 export const Homepage: GlobalConfig = {
   slug: 'homepage',
   label: label('トップページ', 'Homepage'),
   admin: { group: label('サイト構成', 'Site structure') },
-  access: publicReadEditorWrite,
+  access: publishedReadEditorWrite,
   versions: { drafts: true, max: 20 },
   fields: [
     { name: 'heroTitle', type: 'text', required: true, localized: true, label: label('見出し', 'Hero title') },

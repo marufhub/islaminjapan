@@ -20,7 +20,7 @@ export function MobileNav({ items, menuLabel, closeLabel, navLabel }: MobileNavP
   }, [open])
 
   return (
-    <div className="xl:hidden">
+    <div className="lg:hidden">
       <button
         type="button"
         aria-expanded={open}

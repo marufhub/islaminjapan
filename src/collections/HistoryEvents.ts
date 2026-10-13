@@ -55,6 +55,8 @@ export const HistoryEvents: CollectionConfig = {
     useAsTitle: 'title',
     group: label('コンテンツ', 'Content'),
     defaultColumns: ['title', 'sortKey', 'period', 'verificationStatus', '_status'],
+    preview: (doc, { locale }) =>
+      doc?.id ? `/preview?path=${encodeURIComponent(`/${locale === 'en' ? 'en' : 'ja'}/islam-in-japan/events/${String(doc.id)}`)}` : null,
   },
   access: {
     read: publishedInLocaleOrStaff,

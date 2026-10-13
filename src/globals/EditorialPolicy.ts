@@ -2,16 +2,18 @@ import type { GlobalConfig } from 'payload'
 
 import { label } from '@/lib/i18n/config'
 
-import { publicReadAdminWrite } from './access'
+import { publishedReadAdminWrite } from './access'
 
-/** Policy pages (editorial, sources, privacy). Privacy text requires legal review before launch. */
+/** About and policy pages (editorial, sources, privacy). Privacy text requires legal review before launch. */
 export const EditorialPolicy: GlobalConfig = {
   slug: 'editorial-policy',
-  label: label('編集方針・ポリシー', 'Policies'),
+  label: label('概要・ポリシー', 'About & policies'),
   admin: { group: label('設定', 'Settings') },
-  access: publicReadAdminWrite,
-  versions: { drafts: false, max: 20 },
+  access: publishedReadAdminWrite,
+  // Drafts: policy text (especially privacy) must be reviewed before it goes live.
+  versions: { drafts: true, max: 20 },
   fields: [
+    { name: 'about', type: 'richText', localized: true, label: label('私たちについて（ミッション）', 'About / mission') },
     { name: 'editorialPolicy', type: 'richText', localized: true, label: label('編集方針', 'Editorial policy') },
     { name: 'sourcesPolicy', type: 'richText', localized: true, label: label('出典・引用の方針', 'Sources & references policy') },
     { name: 'privacyPolicy', type: 'richText', localized: true, label: label('プライバシーポリシー', 'Privacy policy') },

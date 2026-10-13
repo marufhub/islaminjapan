@@ -10,6 +10,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     { label: dict.nav.about, href: '/about' },
     { label: dict.nav.contact, href: '/contact' },
     { label: dict.nav.editorialPolicy, href: '/editorial-policy' },
+    { label: dict.nav.sourcesPolicy, href: '/sources-policy' },
     { label: dict.nav.privacy, href: '/privacy' },
   ]
   return (

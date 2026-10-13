@@ -2,10 +2,11 @@ import type { CollectionConfig } from 'payload'
 
 import { editorOrOwner, isEditorOrAdmin, isStaff, publishedInLocaleOrStaff } from '@/access/roles'
 import { audiencesField } from '@/fields/audience'
-import { authorField, editorialStatusField, publishedLocalesField } from '@/fields/shared'
+import { authorField, editorialStatusField, publishedLocalesField, searchTextField } from '@/fields/shared'
 import { enforceEditorialWorkflow } from '@/hooks/editorialWorkflow'
 import { requireVerifiedSources } from '@/hooks/publishChecks'
 import { disablePublicLocaleFallback, trackDraftSave } from '@/hooks/requestGuards'
+import { buildSearchText } from '@/hooks/searchText'
 import { label } from '@/lib/i18n/config'
 
 export const FAQs: CollectionConfig = {
@@ -27,7 +28,10 @@ export const FAQs: CollectionConfig = {
   versions: { drafts: true, maxPerDoc: 30 },
   hooks: {
     beforeOperation: [trackDraftSave, disablePublicLocaleFallback],
-    beforeChange: [enforceEditorialWorkflow([requireVerifiedSources('sources')])],
+    beforeChange: [
+      enforceEditorialWorkflow([requireVerifiedSources('sources')]),
+      buildSearchText({ text: ['question', 'shortAnswer'], richText: ['answer'] }),
+    ],
   },
   fields: [
     { name: 'question', type: 'text', required: true, localized: true, label: label('質問', 'Question') },
@@ -44,6 +48,7 @@ export const FAQs: CollectionConfig = {
     { name: 'relatedArticles', type: 'relationship', relationTo: 'articles', hasMany: true, label: label('関連記事', 'Related articles') },
     { name: 'sources', type: 'relationship', relationTo: 'sources', hasMany: true, label: label('出典', 'Sources') },
     { name: 'featured', type: 'checkbox', defaultValue: false, label: label('トップページに表示', 'Show on homepage'), admin: { position: 'sidebar' } },
+    { ...searchTextField, localized: true },
     publishedLocalesField,
     editorialStatusField,
     authorField,

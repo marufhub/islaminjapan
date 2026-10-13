@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { en } from '@payloadcms/translations/languages/en'
@@ -10,6 +11,7 @@ import { fileURLToPath } from 'url'
 
 import { Articles } from './collections/Articles'
 import { Categories } from './collections/Categories'
+import { ContactSubmissions } from './collections/ContactSubmissions'
 import { EditorialTopics } from './collections/EditorialTopics'
 import { FAQs } from './collections/FAQs'
 import { HistoryEvents } from './collections/HistoryEvents'
@@ -22,6 +24,7 @@ import { Footer } from './globals/Footer'
 import { Homepage } from './globals/Homepage'
 import { Navigation } from './globals/Navigation'
 import { SiteSettings } from './globals/SiteSettings'
+import { isEmailConfigured } from './lib/email'
 import { DEFAULT_LOCALE } from './lib/i18n/config'
 import { migrations } from './migrations'
 
@@ -42,7 +45,7 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
     meta: { titleSuffix: ' — Islam in Japan CMS' },
   },
-  collections: [Articles, HistoryEvents, FAQs, Sources, Categories, Media, EditorialTopics, Users],
+  collections: [Articles, HistoryEvents, FAQs, Sources, Categories, Media, EditorialTopics, ContactSubmissions, Users],
   globals: [SiteSettings, Navigation, Homepage, Footer, ContactSettings, EditorialPolicy],
   localization: {
     locales: [
@@ -68,6 +71,19 @@ export default buildConfig({
     migrationDir: path.resolve(dirname, 'migrations'),
     prodMigrations: migrations,
   }),
+  // Without SMTP settings Payload logs emails to the console and inquiries stay in the admin queue.
+  email: isEmailConfigured()
+    ? nodemailerAdapter({
+        defaultFromAddress: process.env.SMTP_FROM_ADDRESS ?? '',
+        defaultFromName: process.env.SMTP_FROM_NAME ?? 'Islam in Japan',
+        transportOptions: {
+          host: process.env.SMTP_HOST,
+          port: Number(process.env.SMTP_PORT ?? 587),
+          secure: process.env.SMTP_SECURE === 'true',
+          auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
+        },
+      })
+    : undefined,
   sharp,
   plugins: [
     s3Storage({

@@ -5,7 +5,9 @@ import type { ReactNode } from 'react'
 
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { SiteHeader } from '@/components/layout/SiteHeader'
-import { isLocale, LOCALES } from '@/lib/i18n/config'
+import { PreviewBanner } from '@/components/layout/PreviewBanner'
+import { getViewer } from '@/lib/content/viewer'
+import { isLocale } from '@/lib/i18n/config'
 import { getDictionary } from '@/lib/i18n/dictionaries'
 
 import './globals.css'
@@ -17,8 +19,8 @@ const arabic = Amiri({ weight: ['400', '700'], subsets: ['arabic'], display: 'sw
 
 type LayoutProps = { children: ReactNode; params: Promise<{ locale: string }> }
 
-export const generateStaticParams = () => LOCALES.map((locale) => ({ locale }))
-export const dynamicParams = false
+// Pages read the CMS on each request, so the build never needs a database connection.
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
   const { locale } = await params
@@ -28,6 +30,7 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
     metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'),
     title: { default: `${dict.siteSubtitle} | ${dict.siteName}`, template: `%s | ${dict.siteName}` },
     description: dict.home.heroIntro,
+    icons: { icon: '/favicon.svg' },
   }
 }
 
@@ -35,6 +38,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   const { locale } = await params
   if (!isLocale(locale)) notFound()
   const dict = getDictionary(locale)
+  const viewer = await getViewer()
 
   return (
     <html lang={locale} className={`${sansJp.variable} ${serifJp.variable} ${arabic.variable}`}>
@@ -45,6 +49,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         >
           {dict.skipToContent}
         </a>
+        {viewer.isPreview ? (
+          <PreviewBanner message={dict.ui.previewBanner} exitLabel={dict.ui.exitPreview} returnPath={`/${locale}`} />
+        ) : null}
         <SiteHeader locale={locale} />
         <main id="main">{children}</main>
         <SiteFooter locale={locale} />

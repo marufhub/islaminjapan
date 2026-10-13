@@ -74,6 +74,7 @@ export interface Config {
     categories: Category;
     media: Media;
     'editorial-topics': EditorialTopic;
+    'contact-submissions': ContactSubmission;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -89,6 +90,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'editorial-topics': EditorialTopicsSelect<false> | EditorialTopicsSelect<true>;
+    'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -221,6 +223,7 @@ export interface Article {
     description?: string | null;
   };
   featured?: boolean | null;
+  searchText?: string | null;
   language: 'ja' | 'en';
   /**
    * Japanese and English versions sharing this ID are linked as translations.
@@ -515,6 +518,7 @@ export interface Faq {
   relatedArticles?: (number | Article)[] | null;
   sources?: (number | Source)[] | null;
   featured?: boolean | null;
+  searchText?: string | null;
   /**
    * Select only reviewed languages. The document is hidden in other languages.
    */
@@ -546,6 +550,26 @@ export interface EditorialTopic {
   linkedArticle?: (number | null) | Article;
   notes?: string | null;
   author?: (number | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Contains personal data. Delete what is no longer needed once handled.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions".
+ */
+export interface ContactSubmission {
+  id: number;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  locale?: ('ja' | 'en') | null;
+  status?: ('new' | 'in_progress' | 'answered' | 'spam') | null;
+  deliveryStatus?: ('sent' | 'failed' | 'not_configured') | null;
+  requesterHash?: string | null;
+  internalNotes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -600,6 +624,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'editorial-topics';
         value: number | EditorialTopic;
+      } | null)
+    | ({
+        relationTo: 'contact-submissions';
+        value: number | ContactSubmission;
       } | null)
     | ({
         relationTo: 'users';
@@ -699,6 +727,7 @@ export interface ArticlesSelect<T extends boolean = true> {
         description?: T;
       };
   featured?: T;
+  searchText?: T;
   language?: T;
   translationGroup?: T;
   slug?: T;
@@ -775,6 +804,7 @@ export interface FaqsSelect<T extends boolean = true> {
   relatedArticles?: T;
   sources?: T;
   featured?: T;
+  searchText?: T;
   publishedLocales?: T;
   editorialStatus?: T;
   author?: T;
@@ -905,6 +935,23 @@ export interface EditorialTopicsSelect<T extends boolean = true> {
   linkedArticle?: T;
   notes?: T;
   author?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions_select".
+ */
+export interface ContactSubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  subject?: T;
+  message?: T;
+  locale?: T;
+  status?: T;
+  deliveryStatus?: T;
+  requesterHash?: T;
+  internalNotes?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1091,6 +1138,21 @@ export interface ContactSetting {
  */
 export interface EditorialPolicy {
   id: number;
+  about?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   editorialPolicy?: {
     root: {
       type: string;
@@ -1137,6 +1199,7 @@ export interface EditorialPolicy {
     [k: string]: unknown;
   } | null;
   lastUpdated?: string | null;
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1245,10 +1308,12 @@ export interface ContactSettingsSelect<T extends boolean = true> {
  * via the `definition` "editorial-policy_select".
  */
 export interface EditorialPolicySelect<T extends boolean = true> {
+  about?: T;
   editorialPolicy?: T;
   sourcesPolicy?: T;
   privacyPolicy?: T;
   lastUpdated?: T;
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

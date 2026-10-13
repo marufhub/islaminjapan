@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import type { Field, FieldHook, RelationshipField } from 'payload'
+import type { Field, FieldHook, RelationshipField, TextareaField } from 'payload'
 
 import { canPublish, isEditorOrAdminField } from '@/access/roles'
 import { EDITORIAL_STATUSES } from '@/hooks/editorialWorkflow'
@@ -126,6 +126,14 @@ export const publishedLocalesField: Field = {
       'Select only reviewed languages. The document is hidden in other languages.',
     ),
   },
+}
+
+/** Hidden plain-text index maintained by `buildSearchText`; never edited by hand. */
+export const searchTextField: TextareaField = {
+  name: 'searchText',
+  type: 'textarea',
+  admin: { hidden: true },
+  access: { create: () => false, update: () => false },
 }
 
 export const seoField: Field = {
