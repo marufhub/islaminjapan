@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
 
+import { ArticleGrid } from '@/components/content/ArticleCard'
 import { SectionArticles } from '@/components/content/SectionArticles'
 import { Timeline } from '@/components/content/Timeline'
 import { Container } from '@/components/ui/Container'
 import { FilterNav } from '@/components/ui/FilterNav'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { listArticles } from '@/lib/content/articles'
 import { type HistorySubject, listHistoryEvents } from '@/lib/content/history'
 import { withQuery } from '@/lib/content/query'
 import { firstParam, parsePage } from '@/lib/content/search'
@@ -26,10 +28,10 @@ const asSubject = (value: string | undefined): HistorySubject | undefined =>
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { locale, dict } = await resolveLocale(params)
   const query = await searchParams
-  const copy = dict.sections.islamInJapan
+  const copy = dict.sections.history
   // Filtered views are useful to visitors but duplicate the main page for search engines.
   const filtered = Boolean(firstParam(query.period) || firstParam(query.subject) || firstParam(query.page))
-  return buildMetadata({ locale, title: copy.title, description: copy.intro, paths: bothLocales('/islam-in-japan'), noindex: filtered })
+  return buildMetadata({ locale, title: copy.title, description: copy.intro, paths: bothLocales('/history-of-islam-in-japan'), noindex: filtered })
 }
 
 export default async function IslamInJapanPage({ params, searchParams }: PageProps) {
@@ -38,9 +40,12 @@ export default async function IslamInJapanPage({ params, searchParams }: PagePro
   const period = asPeriod(firstParam(query.period))
   const subject = asSubject(firstParam(query.subject))
   const page = parsePage(firstParam(query.page))
-  const events = await listHistoryEvents({ locale, period, subject })
-  const copy = dict.sections.islamInJapan
-  const basePath = `/${locale}/islam-in-japan`
+  const [events, profiles] = await Promise.all([
+    listHistoryEvents({ locale, period, subject }),
+    listArticles({ locale, section: 'islam-in-japan', articleType: 'profile', limit: 6 }),
+  ])
+  const copy = dict.sections.history
+  const basePath = `/${locale}/history-of-islam-in-japan`
   const filterHref = (next: { period?: string; subject?: string }) => `${withQuery(basePath, { period, subject, ...next })}#timeline`
 
   return (
@@ -55,6 +60,19 @@ export default async function IslamInJapanPage({ params, searchParams }: PagePro
         ]}
       />
       <Container className="space-y-16 py-12">
+        <section aria-labelledby="history-scope" className="rounded-lg border border-line bg-surface p-6">
+          <h2 id="history-scope" className="text-lg font-semibold">
+            {copy.scopeTitle}
+          </h2>
+          <ul className="mt-3 space-y-2 text-sm">
+            {copy.scope.map((line) => (
+              <li key={line} className="flex gap-3">
+                <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
         <section aria-labelledby="timeline" className="scroll-mt-8">
           <h2 id="timeline" className="text-2xl font-semibold">
             {copy.timelineTitle}
@@ -92,6 +110,16 @@ export default async function IslamInJapanPage({ params, searchParams }: PagePro
             )}
           </div>
         </section>
+        {profiles.docs.length > 0 ? (
+          <section aria-labelledby="history-profiles">
+            <h2 id="history-profiles" className="text-2xl font-semibold">
+              {copy.profilesTitle}
+            </h2>
+            <div className="mt-6">
+              <ArticleGrid articles={profiles.docs} locale={locale} levelLabels={dict.ui.knowledgeLevel} />
+            </div>
+          </section>
+        ) : null}
         <SectionArticles locale={locale} dict={dict} section="islam-in-japan" page={page} basePath={basePath} heading={copy.articlesTitle} />
       </Container>
     </>

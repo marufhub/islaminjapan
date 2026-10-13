@@ -43,7 +43,7 @@ test.describe('Published content', () => {
   })
 
   test('timeline marks approximate dates and filters by period', async ({ page }) => {
-    await page.goto('/ja/islam-in-japan')
+    await page.goto('/ja/history-of-islam-in-japan')
     const entry = page.getByRole('listitem').filter({ hasText: FIXTURE.eventTitle })
     await expect(entry).toContainText('1890年頃')
     await page.getByRole('link', { name: '昭和戦後', exact: true }).click()
@@ -52,15 +52,25 @@ test.describe('Published content', () => {
     await expect(page.getByText(FIXTURE.eventTitle)).toBeVisible()
   })
 
+  test('the old history URL redirects permanently and the section explains its scope', async ({ page, request }) => {
+    const redirect = await request.get('/ja/islam-in-japan', { maxRedirects: 0 })
+    expect(redirect.status()).toBe(308)
+    expect(redirect.headers().location).toBe('/ja/history-of-islam-in-japan')
+    await page.goto('/en/islam-in-japan')
+    await expect(page).toHaveURL(/\/en\/history-of-islam-in-japan$/)
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('History of Islam in Japan')
+    await expect(page.getByText(/not Japanese history in general/)).toBeVisible()
+  })
+
   test('event detail page renders the date and sources', async ({ page }) => {
-    await page.goto('/ja/islam-in-japan')
+    await page.goto('/ja/history-of-islam-in-japan')
     await page.getByRole('link', { name: FIXTURE.eventTitle }).click()
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(FIXTURE.eventTitle)
     await expect(page.getByText(FIXTURE.sourceTitle)).toBeVisible()
   })
 
   test('history event is hidden in a language it is not published in', async ({ page }) => {
-    await page.goto('/en/islam-in-japan')
+    await page.goto('/en/history-of-islam-in-japan')
     await expect(page.getByText(FIXTURE.eventTitle)).toHaveCount(0)
   })
 })

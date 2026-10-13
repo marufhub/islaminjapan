@@ -156,7 +156,7 @@ export default async function HomePage({ params }: PageProps) {
           <SectionHeading
             id="timeline-heading"
             title={dict.home.timelinePreview}
-            href={`/${locale}/islam-in-japan`}
+            href={`/${locale}/history-of-islam-in-japan`}
             linkLabel={dict.ui.viewAll}
           />
           <p className="mt-3 max-w-2xl text-muted">{dict.home.timelinePreviewIntro}</p>

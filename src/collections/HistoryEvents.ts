@@ -3,7 +3,7 @@ import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
 import { editorOrOwner, isEditorOrAdmin, isStaff, isStaffField, publishedInLocaleOrStaff } from '@/access/roles'
 import { authorField, editorialStatusField, editorOnlyAccess, publishedLocalesField } from '@/fields/shared'
 import { enforceEditorialWorkflow, WorkflowError } from '@/hooks/editorialWorkflow'
-import { requireFactChecked, requireVerifiedSources } from '@/hooks/publishChecks'
+import { requireFactChecked, requireReviewer, requireVerifiedSources } from '@/hooks/publishChecks'
 import { disablePublicLocaleFallback, trackDraftSave } from '@/hooks/requestGuards'
 import { computeSortKey, DATE_PRECISIONS, validateHistoryDate, type HistoryDate } from '@/lib/history/dates'
 import { HISTORY_PERIODS, periodForYear } from '@/lib/history/periods'
@@ -50,13 +50,17 @@ const deriveTimelineFields: CollectionBeforeChangeHook = ({ data, originalDoc })
 
 export const HistoryEvents: CollectionConfig = {
   slug: 'history-events',
-  labels: { singular: label('年表項目', 'History event'), plural: label('日本のイスラーム年表', 'History events') },
+  // Scope: the history of Islam and Muslim communities in Japan — not general Japanese history.
+  labels: {
+    singular: label('日本におけるイスラームの歴史：年表項目', 'History of Islam in Japan event'),
+    plural: label('日本におけるイスラームの歴史（年表）', 'History of Islam in Japan events'),
+  },
   admin: {
     useAsTitle: 'title',
     group: label('コンテンツ', 'Content'),
     defaultColumns: ['title', 'sortKey', 'period', 'verificationStatus', '_status'],
     preview: (doc, { locale }) =>
-      doc?.id ? `/preview?path=${encodeURIComponent(`/${locale === 'en' ? 'en' : 'ja'}/islam-in-japan/events/${String(doc.id)}`)}` : null,
+      doc?.id ? `/preview?path=${encodeURIComponent(`/${locale === 'en' ? 'en' : 'ja'}/history-of-islam-in-japan/events/${String(doc.id)}`)}` : null,
   },
   access: {
     read: publishedInLocaleOrStaff,
@@ -73,6 +77,7 @@ export const HistoryEvents: CollectionConfig = {
       deriveTimelineFields,
       enforceEditorialWorkflow([
         requireFactChecked,
+        requireReviewer,
         requireSupportingSource,
         requireVerifiedSources((doc) => [
           doc.sources,
@@ -199,6 +204,16 @@ export const HistoryEvents: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     { name: 'verificationNotes', type: 'textarea', label: label('検証メモ', 'Verification notes'), access: { read: isStaffField }, admin: { position: 'sidebar' } },
+    {
+      name: 'reviewer',
+      type: 'relationship',
+      relationTo: 'users',
+      label: label('レビュー承認者', 'Approved by reviewer'),
+      // Internal: the public page shows only the reviewer's display name, resolved server-side.
+      access: { ...editorOnlyAccess, read: isStaffField },
+      admin: { position: 'sidebar', description: label('公開には承認者の設定が必要です。', 'A reviewer is required before publishing.') },
+    },
+    { name: 'lastReviewedAt', type: 'date', label: label('最終レビュー日', 'Last reviewed'), access: { ...editorOnlyAccess, read: isStaffField }, admin: { position: 'sidebar' } },
     publishedLocalesField,
     editorialStatusField,
     authorField,

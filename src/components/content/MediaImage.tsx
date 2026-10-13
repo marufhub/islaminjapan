@@ -14,7 +14,7 @@ type MediaImageProps = {
 /** Renders a CMS image with alt text, caption, credit and an explicit label for AI-generated images. */
 export function MediaImage({ media, aiLabel, className = '', sizes = '100vw', priority = false, showCaption = true }: MediaImageProps) {
   if (!media || typeof media !== 'object' || !media.url) return null
-  const caption = [media.caption, media.credit].filter(Boolean).join(' — ')
+  const caption = [media.caption, media.originalDate, media.credit].filter(Boolean).join(' — ')
   return (
     <figure className={className}>
       <Image

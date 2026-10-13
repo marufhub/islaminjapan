@@ -24,7 +24,7 @@ type PageProps = { params: Promise<{ locale: string; slug: string }> }
 
 const SECTION_PATHS: Record<NonNullable<Article['section']>, { path: string; key: keyof Dictionary['nav'] }> = {
   learn: { path: '/learn', key: 'learn' },
-  'islam-in-japan': { path: '/islam-in-japan', key: 'islamInJapan' },
+  'islam-in-japan': { path: '/history-of-islam-in-japan', key: 'history' },
   'muslim-life': { path: '/muslim-life', key: 'muslimLife' },
   resources: { path: '/articles', key: 'articles' },
 }

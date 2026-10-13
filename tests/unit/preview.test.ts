@@ -6,7 +6,7 @@ import { buildRss } from '@/lib/seo/rss'
 describe('safePreviewPath', () => {
   it('accepts locale-prefixed site paths', () => {
     expect(safePreviewPath('/ja/articles/what-is-islam')).toBe('/ja/articles/what-is-islam')
-    expect(safePreviewPath('/en/islam-in-japan/events/3')).toBe('/en/islam-in-japan/events/3')
+    expect(safePreviewPath('/en/history-of-islam-in-japan/events/3')).toBe('/en/history-of-islam-in-japan/events/3')
   })
 
   it('rejects open redirects and non-locale paths', () => {

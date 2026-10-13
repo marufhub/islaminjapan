@@ -40,3 +40,25 @@ export const getHistoryEvent = async (locale: Locale, id: number): Promise<Histo
   })
   return event && event.title ? event : null
 }
+
+/**
+ * Review approval for an event the caller has ALREADY loaded through public access.
+ * The reviewer fields are staff-only in the API; only these two values are read here, and the page
+ * shows just the reviewer's display name and date.
+ */
+export const getEventReview = async (id: number): Promise<{ reviewer: number | null; lastReviewedAt: string | null }> => {
+  const payload = await getPayloadClient()
+  const event = await payload.findByID({
+    collection: 'history-events',
+    id,
+    depth: 0,
+    select: { reviewer: true, lastReviewedAt: true },
+    overrideAccess: true,
+    disableErrors: true,
+  })
+  const reviewer = event?.reviewer
+  return {
+    reviewer: typeof reviewer === 'number' ? reviewer : (reviewer?.id ?? null),
+    lastReviewedAt: event?.lastReviewedAt ?? null,
+  }
+}

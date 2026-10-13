@@ -75,6 +75,7 @@ export interface Config {
     media: Media;
     'editorial-topics': EditorialTopic;
     'contact-submissions': ContactSubmission;
+    'ai-usage': AiUsage;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -91,6 +92,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     'editorial-topics': EditorialTopicsSelect<false> | EditorialTopicsSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'ai-usage': AiUsageSelect<false> | AiUsageSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -170,7 +172,7 @@ export interface Article {
     [k: string]: unknown;
   } | null;
   section: 'learn' | 'islam-in-japan' | 'muslim-life' | 'resources';
-  articleType: 'explainer' | 'history_research' | 'faq' | 'muslim_life';
+  articleType: 'explainer' | 'history_research' | 'profile' | 'faq' | 'muslim_life';
   category?: (number | null) | Category;
   tags?: string[] | null;
   audiences?: ('general_public' | 'non_muslims' | 'new_muslims' | 'muslim_residents')[] | null;
@@ -258,6 +260,10 @@ export interface Media {
   caption?: string | null;
   credit?: string | null;
   sourceUrl?: string | null;
+  /**
+   * For archival images, e.g. 1938 / c. 1930s
+   */
+  originalDate?: string | null;
   license: 'owned' | 'permission' | 'cc_by' | 'cc_by_sa' | 'cc0' | 'public_domain' | 'licensed' | 'unknown';
   rightsNotes?: string | null;
   /**
@@ -477,6 +483,11 @@ export interface HistoryEvent {
   verificationStatus: 'unverified' | 'in_research' | 'verified' | 'disputed';
   verificationNotes?: string | null;
   /**
+   * A reviewer is required before publishing.
+   */
+  reviewer?: (number | null) | User;
+  lastReviewedAt?: string | null;
+  /**
    * Select only reviewed languages. The document is hidden in other languages.
    */
   publishedLocales?: ('ja' | 'en')[] | null;
@@ -575,6 +586,29 @@ export interface ContactSubmission {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ai-usage".
+ */
+export interface AiUsage {
+  id: number;
+  user: number | User;
+  action: string;
+  model?: string | null;
+  status: 'pending' | 'success' | 'error';
+  errorKind?: string | null;
+  inputTokens?: number | null;
+  outputTokens?: number | null;
+  modelTier?: ('main' | 'fast') | null;
+  promptVersion?: string | null;
+  requestId?: string | null;
+  /**
+   * Estimated from tokens and list prices — not the billed amount.
+   */
+  estimatedCostUsd?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -628,6 +662,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-submissions';
         value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'ai-usage';
+        value: number | AiUsage;
       } | null)
     | ({
         relationTo: 'users';
@@ -783,6 +821,8 @@ export interface HistoryEventsSelect<T extends boolean = true> {
   sortKey?: T;
   verificationStatus?: T;
   verificationNotes?: T;
+  reviewer?: T;
+  lastReviewedAt?: T;
   publishedLocales?: T;
   editorialStatus?: T;
   author?: T;
@@ -870,6 +910,7 @@ export interface MediaSelect<T extends boolean = true> {
   caption?: T;
   credit?: T;
   sourceUrl?: T;
+  originalDate?: T;
   license?: T;
   rightsNotes?: T;
   isAIGenerated?: T;
@@ -952,6 +993,25 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   deliveryStatus?: T;
   requesterHash?: T;
   internalNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ai-usage_select".
+ */
+export interface AiUsageSelect<T extends boolean = true> {
+  user?: T;
+  action?: T;
+  model?: T;
+  status?: T;
+  errorKind?: T;
+  inputTokens?: T;
+  outputTokens?: T;
+  modelTier?: T;
+  promptVersion?: T;
+  requestId?: T;
+  estimatedCostUsd?: T;
   updatedAt?: T;
   createdAt?: T;
 }

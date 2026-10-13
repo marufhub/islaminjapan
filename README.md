@@ -3,9 +3,9 @@
 Japanese-first (`/ja`) and English (`/en`) Islamic education platform: a Next.js public site, Payload CMS
 (`/admin`) and an AI-assisted editorial workflow, deployed as one application on PostgreSQL.
 
-> Status: **Phases 1–2** complete — CMS, roles and editorial workflow; public website (home, Discover Islam,
-> Islam in Japan timeline, Muslim Life, FAQ, articles, search, about/policies, contact), SEO and draft preview.
-> AI Content Studio (Phase 3) and deployment hardening (Phase 4) follow.
+> Status: **Phases 1–3** complete — CMS, roles and editorial workflow; public website (home, Discover Islam,
+> History of Islam in Japan timeline, Muslim Life, FAQ, articles, search, about/policies, contact), SEO, draft preview, and
+> the AI Content Studio. Deployment hardening and documentation (Phase 4) follow.
 
 ## Requirements
 
@@ -83,6 +83,70 @@ Re-running the seed never overwrites existing records or editor changes to globa
 - **Rendering:** pages are server-rendered per request, so `pnpm build` does not need a database (it does need
   `PAYLOAD_SECRET`). Caching is a Phase 4 item.
 
+## AI Content Studio (`/admin/ai-studio`)
+
+Editors and authors fill in a brief (topic, content type, language, audience, level, purpose, style, length),
+select **verified** sources and add research notes, then: generate an outline → edit it → generate a draft →
+improve / simplify / generate SEO text / suggest related FAQs and topics → save to the CMS as a draft →
+translate into a separate linked draft → preview → submit for review. The editorial-calendar section suggests
+topics on demand and adds only the ones an editor selects.
+
+**Provider.** Claude Code is the development tool; the website's runtime AI is the **OpenAI API** (official
+`openai` TypeScript SDK, **Responses API**, structured outputs via `zodTextFormat`). No other AI provider is
+used by the application.
+
+| Setting | Default | Notes |
+|---|---|---|
+| `OPENAI_API_KEY` | — | Server-side only. Without it the Studio shows "not configured" and the API returns `503 not_configured`. |
+| `OPENAI_MODEL` | `gpt-6.1-sol` | Main model: drafts, rewrites, simplification, translation. |
+| `OPENAI_FAST_MODEL` | `gpt-6-luna` | Fast model: outlines, SEO metadata, suggestions, topic ideas. |
+| `AI_MAX_OUTPUT_TOKENS` | `6000` | Per-response cap; reasoning tokens count toward it — raise it if long Japanese drafts are cut off. |
+| `AI_MONTHLY_BUDGET_USD` | `20` | Site-wide guard on **estimated** spend per calendar month (Asia/Tokyo). |
+| `OPENAI_STORE` | `false` | Sent as `store` on every request. |
+| `AI_HOURLY_REQUEST_LIMIT` / `AI_DAILY_TOKEN_BUDGET` | `30` / `600000` | Per-user limits. |
+| `AI_PRICE_INPUT_PER_MTOK` / `AI_PRICE_OUTPUT_PER_MTOK` | — | Price overrides for models outside the built-in table. |
+
+Verify model availability and prices for your OpenAI account before launch; both models are configurable.
+
+- **Structured, validated output:** title, summary, outline, body blocks, SEO, category, tags, `usedSourceIds`,
+  `claimsRequiringVerification`, editorial notes. The response status, refusals and truncation are checked
+  first; the JSON is then validated again with Zod on the server. The body is converted to Lexical rich text as
+  plain text only — model HTML is never rendered.
+- **Evidence rules:** only verified sources are sent, and only their approved excerpts (never research notes),
+  in the lower-trust `input`; the editorial policy is the server-controlled `instructions`. A source without
+  excerpts is labelled "bibliographic only — not fetched". Source IDs returned by the model are re-checked on
+  the server; unknown IDs are dropped and reported. A model-produced citation is never treated as proof.
+- **Human control:** output is saved only as an unpublished draft owned by the user, with the AI's flagged claims
+  in *Claims requiring verification* (publishing is blocked until an editor resolves them) and *AI provenance*
+  (model, prompt-template version, time, user, sources). Updating a saved draft replaces only the AI-authored
+  text/SEO fields, keeps sources, claim resolutions and workflow status, and is refused if anyone edited the
+  article since it was loaded. Every save is a new version.
+- **Safeguards and logging:** per-user hourly limit (in-flight requests count) and rolling 24-hour token budget,
+  site-wide monthly estimated-spend budget, 5-minute timeout with up to 2 SDK retries (exponential backoff),
+  clear errors for missing key, unavailable model, quota, rate limits, refusals, invalid output and truncation.
+  The *AI usage* log records user, action, model, tier, prompt version, request ID, tokens, estimated cost and
+  outcome — never prompts or generated text.
+- **Cost figures are estimates** from token counts and list prices, not the amount billed by OpenAI.
+- **Data retention:** requests are sent with `store: false` by default. This controls response storage for
+  later retrieval; it is **not** a zero-data-retention guarantee — OpenAI's API data-retention policy still
+  applies. Confirm the current policy (and any zero-retention agreement) for your account before handling
+  sensitive material.
+- **Not a religious authority:** prompts forbid invented verses, hadith numbers, quotations, URLs or history and
+  forbid rulings (fatwa). Policy and templates live in `src/prompts/` and are versioned in
+  `src/prompts/versions.ts`.
+- **Tests:** unit and integration tests use a mocked OpenAI client / fake provider and never call the API.
+  `AI_LIVE_TEST=1 pnpm test:ai-live` runs an optional live smoke test (two small **paid** requests).
+
+## History of Islam in Japan (`/[locale]/history-of-islam-in-japan`)
+
+This section covers the history of **Islam and Muslim communities in Japan** — how Islam was encountered or
+reached Japan, and how Muslim people, mosques, organizations and education developed — **not** general Japanese
+history. Each timeline event records its date or range with precision (exact / month / year / circa / decade /
+range / unknown), location, sources, uncertainty notes and differing accounts, and needs a verified fact-check,
+at least one verified source and a reviewer before it can be published. Profiles of pioneers, scholars,
+communities, mosques and associations are articles of type *Profile*. The former path `/islam-in-japan`
+redirects permanently.
+
 ## Project layout
 
 ```text
@@ -94,6 +158,9 @@ src/
   globals/         SiteSettings, Navigation, Homepage, Footer, ContactSettings, EditorialPolicy
   fields/, hooks/  shared field definitions, workflow and publish checks
   features/contact/  contact form, validation, rate-limited submission service
+  features/ai-studio/  AI Studio admin view, endpoints, generation/save services, limits
+  lib/ai/          OpenAI provider adapter, schemas, config, errors
+  prompts/         editorial/citation policy and prompt builders
   lib/             i18n, history dates, content loaders, SEO, rich-text builder, Payload client
   seed/            idempotent seed script and draft content
   migrations/      database migrations

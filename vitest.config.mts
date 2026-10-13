@@ -17,6 +17,16 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          // Paid OpenAI calls: only via `pnpm test:ai-live` with AI_LIVE_TEST=1 and OPENAI_API_KEY.
+          name: 'live',
+          environment: 'node',
+          setupFiles: ['./vitest.setup.ts'],
+          include: ['tests/live/**/*.live.spec.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
           name: 'int',
           environment: 'node',
           setupFiles: ['./vitest.setup.ts'],

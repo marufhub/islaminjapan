@@ -36,7 +36,7 @@ describe('i18n paths', () => {
   })
 
   it('switches the locale segment and keeps the rest of the path', () => {
-    expect(switchLocalePath('/ja/islam-in-japan', 'en')).toBe('/en/islam-in-japan')
+    expect(switchLocalePath('/ja/history-of-islam-in-japan', 'en')).toBe('/en/history-of-islam-in-japan')
     expect(switchLocalePath('/en', 'ja')).toBe('/ja')
     expect(switchLocalePath('/', 'en')).toBe('/en')
   })

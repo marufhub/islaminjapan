@@ -49,6 +49,12 @@ export const Media: CollectionConfig = {
     { name: 'credit', type: 'text', label: label('クレジット・撮影者', 'Credit / creator') },
     { name: 'sourceUrl', type: 'text', label: label('出典URL', 'Source URL') },
     {
+      name: 'originalDate',
+      type: 'text',
+      label: label('撮影・作成時期', 'Original date'),
+      admin: { description: label('史料画像の場合。例: 1938年 / 1930年代頃', 'For archival images, e.g. 1938 / c. 1930s') },
+    },
+    {
       name: 'license',
       type: 'select',
       required: true,

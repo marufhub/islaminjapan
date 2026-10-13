@@ -13,7 +13,11 @@ const nextConfig: NextConfig = {
     localPatterns: [{ pathname: '/api/media/file/**' }],
   },
   // Japanese is the default language; the site root sends visitors to /ja.
-  redirects: async () => [{ source: '/', destination: '/ja', permanent: false }],
+  redirects: async () => [
+    { source: '/', destination: '/ja', permanent: false },
+    // The history section was renamed to "History of Islam in Japan".
+    { source: '/:locale(ja|en)/islam-in-japan/:path*', destination: '/:locale/history-of-islam-in-japan/:path*', permanent: true },
+  ],
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
       '.cjs': ['.cts', '.cjs'],

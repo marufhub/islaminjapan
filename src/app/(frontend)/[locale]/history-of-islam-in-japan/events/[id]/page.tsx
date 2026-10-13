@@ -7,7 +7,9 @@ import { SourceList } from '@/components/content/SourceList'
 import { eventDateLabel } from '@/components/content/Timeline'
 import { Container } from '@/components/ui/Container'
 import { PageHeader } from '@/components/ui/PageHeader'
-import { getHistoryEvent } from '@/lib/content/history'
+import { getEventReview, getHistoryEvent } from '@/lib/content/history'
+import { displayName, getDisplayNames } from '@/lib/content/people'
+import { formatDate } from '@/lib/i18n/format'
 import { HISTORY_PERIODS } from '@/lib/history/periods'
 import type { Locale } from '@/lib/i18n/config'
 import { isLocale } from '@/lib/i18n/config'
@@ -23,7 +25,7 @@ const publishedPaths = (event: HistoryEvent) =>
   Object.fromEntries(
     (event.publishedLocales ?? [])
       .filter((locale): locale is Locale => isLocale(locale))
-      .map((locale) => [locale, `/${locale}/islam-in-japan/events/${event.id}`]),
+      .map((locale) => [locale, `/${locale}/history-of-islam-in-japan/events/${event.id}`]),
   )
 
 const loadEvent = async (params: PageProps['params']) => {
@@ -49,7 +51,10 @@ export default async function HistoryEventPage({ params }: PageProps) {
   const { locale, dict, event } = await loadEvent(params)
   if (!event) notFound()
 
-  const sectionPath = `/${locale}/islam-in-japan`
+  const review = await getEventReview(event.id)
+  const reviewerName = displayName(await getDisplayNames([review.reviewer]), review.reviewer)
+  const reviewedOn = formatDate(review.lastReviewedAt, locale)
+  const sectionPath = `/${locale}/history-of-islam-in-japan`
   const period = HISTORY_PERIODS.find((item) => item.value === event.period)
   const related = (event.relatedArticles ?? []).filter(
     (item): item is Exclude<typeof item, number> => typeof item === 'object' && item.language === locale,
@@ -62,7 +67,7 @@ export default async function HistoryEventPage({ params }: PageProps) {
         breadcrumbLabel={dict.breadcrumb}
         crumbs={[
           { name: dict.nav.home, path: `/${locale}` },
-          { name: dict.sections.islamInJapan.title, path: sectionPath },
+          { name: dict.sections.history.title, path: sectionPath },
           { name: event.title, path: `${sectionPath}/events/${event.id}` },
         ]}
       >
@@ -126,6 +131,12 @@ export default async function HistoryEventPage({ params }: PageProps) {
         ) : null}
 
         <SourceList sources={event.sources} heading={dict.ui.references} locale={locale} />
+        {reviewerName || reviewedOn ? (
+          <p className="mt-8 text-sm text-muted">
+            {dict.ui.reviewedBy}: {reviewerName ?? '—'}
+            {reviewedOn ? ` (${dict.ui.lastReviewed}: ${reviewedOn})` : ''}
+          </p>
+        ) : null}
         <p className="mt-12">
           <a href={`${sectionPath}#timeline`}>← {dict.ui.backToTimeline}</a>
         </p>

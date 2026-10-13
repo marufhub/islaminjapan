@@ -10,7 +10,7 @@ const defaultNavigation = (locale: Locale): NavItem[] => {
   const { nav } = getDictionary(locale)
   return [
     { label: nav.learn, href: '/learn' },
-    { label: nav.islamInJapan, href: '/islam-in-japan' },
+    { label: nav.history, href: '/history-of-islam-in-japan' },
     { label: nav.muslimLife, href: '/muslim-life' },
     { label: nav.faq, href: '/faq' },
     { label: nav.articles, href: '/articles' },

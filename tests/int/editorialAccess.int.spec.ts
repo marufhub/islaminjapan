@@ -251,7 +251,7 @@ describe('history events', () => {
     await payload.update({
       collection: 'history-events',
       id: event.id,
-      data: { _status: 'published', editorialStatus: 'approved', publishedLocales: ['ja'] },
+      data: { _status: 'published', editorialStatus: 'approved', publishedLocales: ['ja'], reviewer: editor.id },
       locale: 'ja',
       ...asUser(editor),
     })
@@ -260,6 +260,10 @@ describe('history events', () => {
     const en = await payload.find({ collection: 'history-events', locale: 'en', overrideAccess: false })
     expect(ja.docs.map((doc) => doc.id)).toContain(event.id)
     expect(en.docs.map((doc) => doc.id)).not.toContain(event.id)
+    // Reviewer identity and review date are internal; the public API never returns them.
+    const publicEvent = ja.docs.find((doc) => doc.id === event.id)
+    expect(publicEvent?.reviewer).toBeUndefined()
+    expect(publicEvent?.lastReviewedAt).toBeUndefined()
   })
 })
 
@@ -339,7 +343,7 @@ describe('review hardening', () => {
     await payload.update({
       collection: 'history-events',
       id: event.id,
-      data: { _status: 'published', editorialStatus: 'approved', publishedLocales: ['ja', 'en'] },
+      data: { _status: 'published', editorialStatus: 'approved', publishedLocales: ['ja', 'en'], reviewer: editor.id },
       locale: 'ja',
       ...asUser(editor),
     })
@@ -431,7 +435,7 @@ describe('review hardening', () => {
       payload.update({
         collection: 'history-events',
         id: event.id,
-        data: { _status: 'published', editorialStatus: 'approved', publishedLocales: ['ja'] },
+        data: { _status: 'published', editorialStatus: 'approved', publishedLocales: ['ja'], reviewer: editor.id },
         locale: 'ja',
         ...asUser(editor),
       }),
@@ -457,5 +461,30 @@ describe('review hardening', () => {
     })
     expect(corrected.period).toBe('prewar_showa')
     expect(corrected.sortKey).toBe(19320000)
+  })
+
+  it('requires reviewer approval before a history event is published', async () => {
+    const source = await payload.create({
+      collection: 'sources',
+      data: { title: 'Reviewer test source', sourceType: 'archival', contentAccessed: true, verificationStatus: 'verified' },
+      draft: false,
+      ...asUser(editor),
+    })
+    const event = await payload.create({
+      collection: 'history-events',
+      data: { title: '承認テスト', date: { precision: 'year', startYear: 1935 }, sources: [source.id], verificationStatus: 'verified' },
+      locale: 'ja',
+      draft: true,
+      ...asUser(editor),
+    })
+    await expect(
+      payload.update({
+        collection: 'history-events',
+        id: event.id,
+        data: { _status: 'published', editorialStatus: 'approved', publishedLocales: ['ja'] },
+        locale: 'ja',
+        ...asUser(editor),
+      }),
+    ).rejects.toThrow(/reviewer/)
   })
 })

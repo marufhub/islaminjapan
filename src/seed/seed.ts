@@ -13,7 +13,8 @@ import { SEED_CATEGORIES, SEED_HOMEPAGE, SEED_NAVIGATION, SEED_POLICIES, SEED_SI
 /** Recorded on every seeded draft so reviewers know the text came from an AI-assisted session. */
 const SEED_PROVENANCE = {
   aiAssisted: true,
-  model: 'Claude (authored during initial project setup)',
+  // Seed drafts were written with AI assistance in the development tool (Claude Code), not the site's runtime AI.
+  model: 'Claude Code (development-time drafting)',
   promptTemplate: 'seed-script',
 }
 const SEED_NOTE =

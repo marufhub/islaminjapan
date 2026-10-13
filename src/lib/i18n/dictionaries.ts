@@ -16,7 +16,7 @@ const ja = {
   nav: {
     home: 'ホーム',
     learn: 'イスラームを知る',
-    islamInJapan: '日本のイスラーム',
+    history: '日本におけるイスラームの歴史',
     muslimLife: '日本でのムスリム生活',
     faq: 'イスラームQ&A',
     articles: '記事・資料',
@@ -39,9 +39,10 @@ const ja = {
         href: '/learn',
       },
       {
-        title: '日本のイスラームを探る',
-        description: '歴史、モスク、コミュニティ、文化をたどります。',
-        href: '/islam-in-japan',
+        title: '日本におけるイスラームの歴史',
+        description:
+          'イスラームがどのように日本に伝わり、ムスリムの人々やモスク、団体、コミュニティがどう発展してきたかをたどります。',
+        href: '/history-of-islam-in-japan',
       },
       {
         title: '日本でのムスリム生活',
@@ -50,8 +51,9 @@ const ja = {
       },
     ],
     featuredTopics: '基本のテーマ',
-    timelinePreview: '日本のイスラーム史',
-    timelinePreviewIntro: '出典に基づいて確認できた出来事を年代順に紹介します。',
+    timelinePreview: '日本におけるイスラームの歴史',
+    timelinePreviewIntro:
+      '日本とムスリムの出会い、ムスリムの来日、コミュニティやモスクの誕生など、出典で確認できた出来事を年代順に紹介します。',
     recommendedFaqs: 'よくある質問',
     latestArticles: '新着記事',
     contactInvitation:
@@ -72,14 +74,21 @@ const ja = {
       journeyIntro: '登録不要。上から順に読むと、イスラームの全体像がつかめます。',
       topicsTitle: 'テーマ別に読む',
     },
-    islamInJapan: {
-      title: '日本のイスラーム',
+    history: {
+      title: '日本におけるイスラームの歴史',
       intro:
-        '日本とムスリム社会の出会いから現代まで。出典に基づき、確認できた事実と不確かな点を区別して紹介します。',
+        'イスラームが日本にどのように伝わり、ムスリムのコミュニティ、モスク、団体、教育がどのように形づくられ発展してきたのか。最初期の記録から現在までをたどります。',
+      scopeTitle: 'このセクションについて',
+      scope: [
+        '対象は「日本におけるイスラームとムスリムの歴史」です。日本の通史ではありません。日本や世界の出来事は、イスラームに関わる出来事を理解するのに必要な範囲でのみ扱います。',
+        '各項目は出典を確認したうえで、編集者の承認を経て公開しています。日付が推定の場合は「頃」などと明記し、諸説がある場合や記録が不足している場合はその旨を示します。',
+        '「日本初」などの主張は、裏付けが確認できたものだけを掲載します。',
+      ],
+      profilesTitle: '人物・コミュニティ・モスク',
       timelineTitle: '年表',
-      articlesTitle: '歴史と文化の記事',
+      articlesTitle: '歴史の記事',
       researchNote:
-        '年表には、編集部が出典を確認した項目のみを掲載しています。日付の精度や諸説がある場合は各項目に明記しています。',
+        '年表には、編集部が出典を確認し承認した項目のみを掲載しています。日付の精度や諸説がある場合は各項目に明記しています。',
     },
     muslimLife: {
       title: '日本でのムスリム生活',
@@ -211,7 +220,7 @@ const en: Dictionary = {
   nav: {
     home: 'Home',
     learn: 'Discover Islam',
-    islamInJapan: 'Islam in Japan',
+    history: 'History of Islam in Japan',
     muslimLife: 'Muslim Life in Japan',
     faq: 'Questions About Islam',
     articles: 'Articles & Resources',
@@ -234,9 +243,10 @@ const en: Dictionary = {
         href: '/learn',
       },
       {
-        title: 'Explore Islam in Japan',
-        description: 'History, mosques, communities and culture.',
-        href: '/islam-in-japan',
+        title: 'History of Islam in Japan',
+        description:
+          'How Islam reached Japan and how Muslim people, mosques, institutions and communities developed over time.',
+        href: '/history-of-islam-in-japan',
       },
       {
         title: 'Muslim Life in Japan',
@@ -245,8 +255,9 @@ const en: Dictionary = {
       },
     ],
     featuredTopics: 'Foundational topics',
-    timelinePreview: 'Islam in Japan: a timeline',
-    timelinePreviewIntro: 'Events we have verified against sources, in chronological order.',
+    timelinePreview: 'History of Islam in Japan',
+    timelinePreviewIntro:
+      'Documented encounters, early Muslim arrivals, and the founding of communities and mosques — verified against sources, in chronological order.',
     recommendedFaqs: 'Common questions',
     latestArticles: 'Latest articles',
     contactInvitation:
@@ -267,14 +278,21 @@ const en: Dictionary = {
       journeyIntro: 'No sign-up needed. Read in order for an overview of Islam.',
       topicsTitle: 'Browse by topic',
     },
-    islamInJapan: {
-      title: 'Islam in Japan',
+    history: {
+      title: 'History of Islam in Japan',
       intro:
-        'From the first encounters between Japan and Muslim societies to the present day — based on sources, separating verified facts from open questions.',
+        'How Islam came to Japan, and how Muslim communities, mosques, organizations and education took shape and developed — from the earliest records to today.',
+      scopeTitle: 'About this section',
+      scope: [
+        'This section covers the history of Islam and Muslims in Japan — not Japanese history in general. Wider Japanese or world events appear only where needed to explain an Islam-in-Japan event.',
+        'Each entry is checked against sources and approved by an editor before publication. Approximate dates are marked (e.g. “c.”), and disputed dates, conflicting reports and evidence gaps are stated.',
+        '“First in Japan” claims are published only when the evidence supports them.',
+      ],
+      profilesTitle: 'People, communities and mosques',
       timelineTitle: 'Timeline',
-      articlesTitle: 'History and culture',
+      articlesTitle: 'History articles',
       researchNote:
-        'The timeline only lists events our editors have checked against sources. Date precision and differing accounts are noted on each entry.',
+        'The timeline only lists events our editors have checked against sources and approved. Date precision and differing accounts are noted on each entry.',
     },
     muslimLife: {
       title: 'Muslim Life in Japan',

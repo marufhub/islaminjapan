@@ -9,6 +9,7 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { AIUsage } from './collections/AIUsage'
 import { Articles } from './collections/Articles'
 import { Categories } from './collections/Categories'
 import { ContactSubmissions } from './collections/ContactSubmissions'
@@ -25,6 +26,7 @@ import { Homepage } from './globals/Homepage'
 import { Navigation } from './globals/Navigation'
 import { SiteSettings } from './globals/SiteSettings'
 import { isEmailConfigured } from './lib/email'
+import { aiStudioEndpoints } from './features/ai-studio/endpoints'
 import { DEFAULT_LOCALE } from './lib/i18n/config'
 import { migrations } from './migrations'
 
@@ -44,8 +46,25 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
     meta: { titleSuffix: ' — Islam in Japan CMS' },
+    components: {
+      afterNavLinks: ['/features/ai-studio/AIStudioNavLink#AIStudioNavLink'],
+      views: {
+        aiStudio: {
+          Component: '/features/ai-studio/AIStudioView#AIStudioView',
+          path: '/ai-studio',
+          meta: { title: 'AI Content Studio — AI記事作成' },
+        },
+      },
+    },
   },
-  collections: [Articles, HistoryEvents, FAQs, Sources, Categories, Media, EditorialTopics, ContactSubmissions, Users],
+  // Cookie-authenticated requests are only accepted from the site's own origin.
+  csrf: [
+    process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000',
+    // Additional hosts that serve the admin (e.g. www and apex), comma-separated.
+    ...(process.env.CSRF_EXTRA_ORIGINS ?? '').split(',').map((origin) => origin.trim()).filter(Boolean),
+  ],
+  collections: [Articles, HistoryEvents, FAQs, Sources, Categories, Media, EditorialTopics, ContactSubmissions, AIUsage, Users],
+  endpoints: aiStudioEndpoints,
   globals: [SiteSettings, Navigation, Homepage, Footer, ContactSettings, EditorialPolicy],
   localization: {
     locales: [

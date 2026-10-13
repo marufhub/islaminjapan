@@ -1,0 +1,33 @@
+/* AI Studio styles — uses Payload admin theme variables so light/dark themes work. */
+.ai-studio { padding: var(--base) calc(var(--base) * 2) calc(var(--base) * 4); max-width: 1100px; }
+.ai-studio h1 { margin-bottom: calc(var(--base) / 2); }
+.ai-studio h2 { margin: calc(var(--base) * 1.5) 0 calc(var(--base) / 2); font-size: 1.25rem; }
+.ai-studio__intro { color: var(--theme-elevation-650); max-width: 70ch; }
+.ai-studio__panel { border: 1px solid var(--theme-elevation-150); border-radius: var(--style-radius-m); padding: var(--base); margin-top: var(--base); background: var(--theme-elevation-0); }
+.ai-studio__grid { display: grid; gap: calc(var(--base) * 0.75); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.ai-studio__field { display: flex; flex-direction: column; gap: 4px; margin-bottom: calc(var(--base) * 0.5); }
+.ai-studio__field label, .ai-studio__label { font-weight: 600; font-size: 0.875rem; }
+.ai-studio input[type='text'], .ai-studio textarea, .ai-studio select {
+  width: 100%; padding: 8px 10px; border: 1px solid var(--theme-elevation-250); border-radius: var(--style-radius-s);
+  background: var(--theme-input-bg); color: var(--theme-text); font: inherit;
+}
+.ai-studio textarea { min-height: 80px; resize: vertical; }
+.ai-studio__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--base); }
+.ai-studio__button {
+  padding: 8px 14px; border-radius: var(--style-radius-s); border: 1px solid var(--theme-elevation-400);
+  background: var(--theme-elevation-50); color: var(--theme-text); cursor: pointer; font: inherit;
+}
+.ai-studio__button--primary { background: #16624f; border-color: #16624f; color: #fff; }
+.ai-studio__button:disabled { opacity: 0.55; cursor: not-allowed; }
+.ai-studio__notice { padding: 10px 14px; border-radius: var(--style-radius-s); margin-top: var(--base); border-left: 4px solid var(--theme-elevation-400); background: var(--theme-elevation-50); }
+.ai-studio__notice--warning { border-left-color: #c8a96b; }
+.ai-studio__notice--error { border-left-color: var(--theme-error-500); background: var(--theme-error-50); }
+.ai-studio__notice--success { border-left-color: #16624f; }
+.ai-studio__sources { max-height: 240px; overflow: auto; border: 1px solid var(--theme-elevation-150); border-radius: var(--style-radius-s); padding: 8px; }
+.ai-studio__sources label { display: flex; gap: 8px; align-items: baseline; font-weight: 400; padding: 2px 0; }
+.ai-studio__muted { color: var(--theme-elevation-500); font-size: 0.8125rem; }
+.ai-studio__block { border: 1px dashed var(--theme-elevation-200); border-radius: var(--style-radius-s); padding: 8px; margin-bottom: 8px; }
+.ai-studio__block-head { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+.ai-studio__block-head select { width: auto; }
+.ai-studio__claims li { margin-bottom: 10px; }
+.ai-studio__row { display: flex; gap: 8px; align-items: flex-start; }

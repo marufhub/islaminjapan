@@ -5,7 +5,7 @@ import { LOCALES, type Locale } from '@/lib/i18n/config'
 
 import { absoluteUrl } from './urls'
 
-const STATIC_PATHS = ['', '/learn', '/islam-in-japan', '/muslim-life', '/faq', '/articles', '/about', '/contact', '/editorial-policy', '/sources-policy', '/privacy']
+const STATIC_PATHS = ['', '/learn', '/history-of-islam-in-japan', '/muslim-life', '/faq', '/articles', '/about', '/contact', '/editorial-policy', '/sources-policy', '/privacy']
 
 type Entry = MetadataRoute.Sitemap[number]
 
@@ -59,7 +59,7 @@ export const buildSitemap = async (): Promise<MetadataRoute.Sitemap> => {
 
   const eventEntries = events.flatMap((event) =>
     withAlternates(
-      Object.fromEntries((event.publishedLocales ?? []).map((locale) => [locale, `/${locale}/islam-in-japan/events/${event.id}`])),
+      Object.fromEntries((event.publishedLocales ?? []).map((locale) => [locale, `/${locale}/history-of-islam-in-japan/events/${event.id}`])),
       event.updatedAt,
     ),
   )

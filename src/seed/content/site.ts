@@ -4,7 +4,7 @@ import type { Locale } from '@/lib/i18n/config'
 export const SEED_CATEGORIES = [
   { slug: 'beliefs', group: 'beliefs', ja: 'イスラームの信仰', en: 'Islamic Beliefs' },
   { slug: 'quran-hadith', group: 'quran_hadith', ja: 'クルアーンとハディース', en: 'Quran & Hadith' },
-  { slug: 'history-japan', group: 'history_japan', ja: '日本のイスラーム史', en: 'Islam in Japan History' },
+  { slug: 'history-japan', group: 'history_japan', ja: '日本におけるイスラームの歴史', en: 'History of Islam in Japan' },
   { slug: 'muslim-life', group: 'muslim_life', ja: '日本でのムスリム生活', en: 'Muslim Life in Japan' },
   { slug: 'ethics-culture', group: 'ethics_culture', ja: '倫理と文化', en: 'Islamic Ethics & Culture' },
   { slug: 'community', group: 'community', ja: '相互理解', en: 'Community Understanding' },
@@ -13,7 +13,7 @@ export const SEED_CATEGORIES = [
 export const SEED_NAVIGATION: Record<Locale, Array<{ label: string; href: string }>> = {
   ja: [
     { label: 'イスラームを知る', href: '/learn' },
-    { label: '日本のイスラーム', href: '/islam-in-japan' },
+    { label: '日本におけるイスラームの歴史', href: '/history-of-islam-in-japan' },
     { label: '日本でのムスリム生活', href: '/muslim-life' },
     { label: 'イスラームQ&A', href: '/faq' },
     { label: '記事・資料', href: '/articles' },
@@ -21,7 +21,7 @@ export const SEED_NAVIGATION: Record<Locale, Array<{ label: string; href: string
   ],
   en: [
     { label: 'Discover Islam', href: '/learn' },
-    { label: 'Islam in Japan', href: '/islam-in-japan' },
+    { label: 'History of Islam in Japan', href: '/history-of-islam-in-japan' },
     { label: 'Muslim Life', href: '/muslim-life' },
     { label: 'Questions', href: '/faq' },
     { label: 'Articles', href: '/articles' },
@@ -48,7 +48,11 @@ export const SEED_HOMEPAGE: Record<Locale, { heroTitle: string; heroIntro: strin
     heroIntro: 'イスラームの教え、歴史、文化、そして日本で暮らすムスリムの生活をわかりやすく紹介します。',
     pathways: [
       { title: 'イスラームを知る', description: '信仰・価値観・実践の基本をやさしく解説します。', href: '/learn' },
-      { title: '日本のイスラームを探る', description: '歴史、モスク、コミュニティ、文化をたどります。', href: '/islam-in-japan' },
+      {
+        title: '日本におけるイスラームの歴史',
+        description: 'イスラームがどのように日本に伝わり、ムスリムの人々やモスク、団体、コミュニティがどう発展してきたかをたどります。',
+        href: '/history-of-islam-in-japan',
+      },
       { title: '日本でのムスリム生活', description: '日本で暮らすムスリムに役立つ学びと情報。', href: '/muslim-life' },
     ],
   },
@@ -57,7 +61,11 @@ export const SEED_HOMEPAGE: Record<Locale, { heroTitle: string; heroIntro: strin
     heroIntro: 'Clear introductions to Islamic teachings, history and culture, and to the lives of Muslims living in Japan.',
     pathways: [
       { title: 'Discover Islam', description: "Learn Islam's beliefs, values and practices.", href: '/learn' },
-      { title: 'Explore Islam in Japan', description: 'History, mosques, communities and culture.', href: '/islam-in-japan' },
+      {
+        title: 'History of Islam in Japan',
+        description: 'How Islam reached Japan and how Muslim people, mosques, institutions and communities developed over time.',
+        href: '/history-of-islam-in-japan',
+      },
       { title: 'Muslim Life in Japan', description: 'Learning and practical information for life in Japan.', href: '/muslim-life' },
     ],
   },

@@ -19,6 +19,7 @@ export type ArticleListOptions = {
   page?: number
   limit?: number
   featuredOnly?: boolean
+  articleType?: Article['articleType']
 }
 
 const LIST_SELECT = {
@@ -35,11 +36,12 @@ const LIST_SELECT = {
   learningJourneyOrder: true,
 } as const
 
-const buildWhere = ({ locale, section, categoryId, query, featuredOnly }: ArticleListOptions): Where => {
+const buildWhere = ({ locale, section, categoryId, query, featuredOnly, articleType }: ArticleListOptions): Where => {
   const conditions: Where[] = [{ language: { equals: locale } }]
   if (section) conditions.push({ section: { equals: section } })
   if (categoryId) conditions.push({ category: { equals: categoryId } })
   if (featuredOnly) conditions.push({ featured: { equals: true } })
+  if (articleType) conditions.push({ articleType: { equals: articleType } })
   if (query) conditions.push({ or: [{ title: { like: query } }, { searchText: { like: query } }] })
   return { and: conditions }
 }

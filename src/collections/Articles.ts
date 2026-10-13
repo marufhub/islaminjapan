@@ -22,14 +22,16 @@ import { label } from '@/lib/i18n/config'
 
 export const ARTICLE_SECTIONS = [
   { value: 'learn', label: label('イスラームを知る', 'Discover Islam') },
-  { value: 'islam-in-japan', label: label('日本のイスラーム', 'Islam in Japan') },
+  // Stored value kept as 'islam-in-japan' (no data migration); public route is /history-of-islam-in-japan.
+  { value: 'islam-in-japan', label: label('日本におけるイスラームの歴史', 'History of Islam in Japan') },
   { value: 'muslim-life', label: label('日本でのムスリム生活', 'Muslim Life in Japan') },
   { value: 'resources', label: label('記事・資料', 'Articles & Resources') },
 ]
 
 export const ARTICLE_TYPES = [
   { value: 'explainer', label: label('入門解説', 'Introductory explainer') },
-  { value: 'history_research', label: label('歴史研究', 'Historical research') },
+  { value: 'history_research', label: label('日本におけるイスラームの歴史（研究記事）', 'History of Islam in Japan research') },
+  { value: 'profile', label: label('人物・団体・モスクの紹介', 'Profile (pioneer, scholar, community, mosque, association)') },
   { value: 'faq', label: label('Q&A', 'FAQ-style') },
   { value: 'muslim_life', label: label('日本でのムスリム生活', 'Muslim life in Japan') },
 ]

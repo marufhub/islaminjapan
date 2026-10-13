@@ -31,7 +31,7 @@ export function Timeline({ events, locale, labels, headingLevel = 'h3' }: Timeli
             {isApproximate(event) ? <span className="ml-2 rounded bg-gold-soft px-1.5 py-0.5 text-xs font-normal text-charcoal">{labels.uncertain}</span> : null}
           </p>
           <Heading className="mt-1 text-lg font-semibold">
-            <a href={`/${locale}/islam-in-japan/events/${event.id}`} className="text-charcoal hover:text-primary">
+            <a href={`/${locale}/history-of-islam-in-japan/events/${event.id}`} className="text-charcoal hover:text-primary">
               {event.title}
             </a>
           </Heading>
